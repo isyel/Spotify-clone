@@ -5,7 +5,7 @@ import { useDataLayerValue } from "../../../../react-context-api/DataLayer";
 import "./Header.css";
 
 function Header() {
-	const [{ user }, dispatch] = useDataLayerValue();
+	const [{ user }] = useDataLayerValue();
 
 	return (
 		<div className="header">

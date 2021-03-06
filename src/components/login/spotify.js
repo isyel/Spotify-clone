@@ -6,7 +6,7 @@ const dev = process.env.NODE_ENV !== "production";
 
 const redirectUri = dev
 	? "http://localhost:3000/"
-	: "https://jobs-listing-interface.vercel.app";
+	: "https://spotify-clone-e3cac.web.app/";
 
 const scopes = [
 	"user-read-currently-playing",

@@ -2,7 +2,12 @@ export const authEndpoint = "https://accounts.spotify.com/authorize";
 
 const clientId = "7b5f8f8b16164246930efe254d9f1c72";
 
-const redirectUri = "http://localhost:3000/";
+const dev = process.env.NODE_ENV !== "production";
+
+const redirectUri = dev
+	? "http://localhost:3000/"
+	: "https://jobs-listing-interface.vercel.app";
+
 const scopes = [
 	"user-read-currently-playing",
 	"user-read-recently-played",

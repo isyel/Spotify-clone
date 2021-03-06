@@ -8,6 +8,7 @@ import { useDataLayerValue } from "../../../react-context-api/DataLayer";
 
 function Sidebar() {
 	const [{ playlists }] = useDataLayerValue();
+
 	return (
 		<div className="sidebar">
 			<img
@@ -25,7 +26,11 @@ function Sidebar() {
 			<hr />
 
 			{playlists?.items?.map((playlist) => (
-				<SidebarOptions key={playlist.created_at} title={playlist?.name} />
+				<SidebarOptions
+					key={playlist.created_at}
+					title={playlist?.name}
+					id={playlist.id}
+				/>
 			))}
 		</div>
 	);

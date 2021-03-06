@@ -11,6 +11,10 @@
 	color: white;
 }
 
+.active {
+	color: white;
+}
+
 .sidebarOptions__icon {
 	padding-left: 10px;
 	padding-right: 10px;

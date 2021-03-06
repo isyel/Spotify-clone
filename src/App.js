@@ -10,10 +10,7 @@ import * as types from "./react-context-api/actionTypes";
 const spotify = new SpotifyWebApi();
 
 function App() {
-	const [
-		{ user, token, playlists, discover_weekly },
-		dispatch,
-	] = useDataLayerValue();
+	const [{ token, current_playlist }, dispatch] = useDataLayerValue();
 
 	useEffect(() => {
 		const hash = getTokenFromResponseUrl();
@@ -21,6 +18,7 @@ function App() {
 
 		const token = hash.access_token;
 		if (token) {
+			console.log("Called general useEffect");
 			dispatch({ type: types.SET_TOKEN, token });
 			spotify.setAccessToken(token);
 
@@ -33,23 +31,41 @@ function App() {
 					type: types.SET_PLAYLISTS,
 					playlists,
 				});
+
+				dispatch({
+					type: types.SET_CURRENT_PLAYLIST,
+					current_playlist: playlists.items[0].id,
+				});
 			});
 
-			spotify.getPlaylist("0TG3O7yYO0fgbmAMkptjmn").then((response) => {
+			spotify.getMyTopArtists().then((response) =>
 				dispatch({
-					type: types.SET_DISCOVER_WEEKLY,
-					discover_weekly: response,
-				});
+					type: types.SET_TOP_ARTISTS,
+					top_artists: response,
+				})
+			);
+
+			dispatch({
+				type: types.SET_SPOTIFY,
+				spotify: spotify,
 			});
 		}
 	}, [dispatch]);
 
-	console.log("User>> ", user);
-	console.log("Token>> ", token);
-	console.log("Playlist>> ", playlists);
-	console.log("Disover>> ", discover_weekly);
+	useEffect(() => {
+		spotify.getPlaylist(current_playlist).then((response) => {
+			dispatch({
+				type: types.SET_DISCOVER_WEEKLY,
+				discover_weekly: response,
+			});
+		});
+	}, [current_playlist, dispatch]);
 
-	return <div className="app">{token ? <Player spotify /> : <Login />}</div>;
+	return (
+		<div className="app">
+			{token ? <Player spotify={spotify} /> : <Login />}
+		</div>
+	);
 }
 
 export default App;
